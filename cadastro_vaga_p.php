@@ -29,18 +29,19 @@ $selecionarID = "select id from loginsenha where login = '$email2' and senha = '
  
  $fk_id = $row_id['id'];
 
- $insert = "insert into candidato(nome,endereco,email,telefone,cidade,id_loginsenha_fk)values ('$nome','$endereco','$email','$telefone','$cidade',$fk_id) ";
+ $insert = "insert into empresa(nome,endereco,email,telefone,cidade,id_loginsenha_fk)values ('$nome','$endereco','$email','$telefone','$cidade',$fk_id) ";
  
  
  mysqli_query($conn,$insert);
 
+
 if(mysqli_Insert_id($conn)){
 	//$_SESSION['msg'] = "<span style='color:green'>Usuário Cadastrado com sucesso</span>";
-	header("Location: cadastrartecnologia.php");
+	header("Location: cadastro_vaga_tecnologia.php");
 }
 else{
    // $_SESSION['msg'] = "<span style='color:red'>Usuário não foi Cadastrado com sucesso</span>";
-	//header("Location: cadastrar.php");
+	header("Location: cadastro_vaga.php");
 
 }
 

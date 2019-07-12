@@ -8,33 +8,27 @@
 <head>
         <meta name="viewport"  content="width=device-width initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Escolha sua técnologia e a sua familiaridade</title>
+    <title>Escolha a técnologia que sua empresa útiliza</title>
 </head>
-<body background="bg.png">
+<body background="bge.png">
     
 <div class="container-fluid">	
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="index.php">Tela do Usuário</a>
+  <a class="navbar-brand" href="index.php">Tela de Cadastro da empresa</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="cadastrartecnologia.php">Inserir Linguagens Conhecidas <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="cadastro_vaga_tecnologia.php">Cadastrar uma vaga <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item " >
-        <a class="nav-link" href="buscarvagas.php">Mostrar Vagas Compativeis</a>
+        <a class="nav-link" href="buscaraplicacoes.php">Mostrar Aplicações</a>
       </li>
     </ul>
       
-      
-      <!--
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-      -->
+     
   </div>
 </nav>
 </div>
@@ -49,17 +43,15 @@
     $email= $_SESSION['email'] ;
     $senha = $_SESSION['senha'];
 
-                $result_usuarios = "
-SELECT                 cnd_t.id as id_listagemtecno,
-                       tcno.Nome_Linguagem as linguagem, 
-                       cnd_t.descricao as descricao,
-                       cnd_t.anos as anos
-                       
+                $result_usuarios = "SELECT emp_v.id as id,
+       tcno.Nome_Linguagem as linguagem, 
+       emp.nome as nome,
+       emp_v.descricao as descricao
                 FROM 
-                       candidatos_tecnologias as cnd_t
-                inner join candidato as cnd on cnd.id = cnd_t.id_usuario_fk 
-                inner join tecnologia as tcno on tcno.id = cnd_t.id_tecnologia_fk
-                inner join loginsenha as lgn on lgn.id = cnd.id_loginsenha_fk
+                 empresa_vagas as emp_v
+                inner join empresa as emp on emp.id = emp_v.id_empresa_fk 
+                inner join tecnologia as tcno on tcno.id = emp_v.id_tecnologia_fk
+                inner join loginsenha as lgn on lgn.id = emp.id_loginsenha_fk
                 where lgn.login = '$email' and lgn.senha = '$senha'";
 
     $resultado_usuarios = mysqli_query($conn,$result_usuarios);
@@ -71,10 +63,9 @@ SELECT                 cnd_t.id as id_listagemtecno,
      <tr>
          <th scope="col"></th>
       <th scope="col">Linguagem</th>
-      <th scope="col">Descrição </th>
-      <th scope="col">Experiência(Anos) </th>
+      <th scope="col">Nome da Empresa </th>
+      <th scope="col">Descrição da Vaga </th>
       <th scope="col"> </th>
-       <th scope="row"> </th>
 
     </tr>
   </thead>
@@ -88,12 +79,12 @@ SELECT                 cnd_t.id as id_listagemtecno,
     <tr class="thead-light ">
       <th scope="row"><?php echo $linha?></th>
       <td><?php echo $row_usuario['linguagem']?></td>      
+      <td><?php echo $row_usuario['nome']?></td>
       <td><?php echo $row_usuario['descricao']?></td>
-      <td><?php echo $row_usuario['anos']?></td>
       <td></td>
       <td>
-          
-        <a href="apagart.php?id=<?php echo $row_usuario['id_listagemtecno'] ?>" class="btn btn-outline-danger">Apagar</a>
+                    
+        <a href="apagart_e.php?id=<?php echo $row_usuario['id'] ?>" class="btn btn-outline-danger">Apagar</a>
       </td>
     </tr>
   </tbody>
@@ -109,10 +100,10 @@ SELECT                 cnd_t.id as id_listagemtecno,
  </div>
 
     
-<form method="POST" action="cadastrartecnologia_p.php">          
+            <form method="POST" action="cadastro_vaga_tecnologia_p.php">          
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal">
-  Adiconar experiência
+  Adiconar uma vaga
 </button>
 
 
@@ -121,7 +112,7 @@ SELECT                 cnd_t.id as id_listagemtecno,
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Inserir Experiencia com Linguágem</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Descreva a vaga</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -150,9 +141,6 @@ SELECT                 cnd_t.id as id_listagemtecno,
       <option>PL/SQL</option>
       <option>Visual Basic</option>
     </select>
-<label>Anos de experiência:</label><br> 
-<input type="text" class="form-control" name="experiencia" placeholder="5">
-
 <label>Descrição:</label><br> 
 <textarea type="text" class="form-control" name="descricao"  placeholder="Conhecimento Avançado, Orientação a objetos" ></textarea>
       </div>
@@ -168,9 +156,9 @@ SELECT                 cnd_t.id as id_listagemtecno,
  
     
     
-<form method="POST" action="buscarvagas.php">
+<form method="POST" action="buscaraplicacoes.php">
 <Br>
-<button type="submit" value="Cadastrar" class="btn btn-secondary btn-lg">Avançar >></button>	
+<button type="submit" value="Cadastrar" class="btn btn-secondary btn-lg">Ver aplicações</button>	
 </form>
     
     

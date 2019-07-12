@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Cadastrar Usuário</title>
+    <title>Cadastrar Empresa</title>
   </head>
-<body background="bg.png">
-	
-	
+<body background="bg.png">	
 <?php
 session_start();
 include_once("conexao.php");
@@ -18,8 +16,8 @@ include_once("conexao.php");
 $email = $_SESSION['email'];
 $senha = $_SESSION['senha'];
      
-$result_usuarios = "SELECT cnd.nome as nome, cnd.email as email FROM candidato as cnd
-inner join loginsenha as lgn_s on lgn_s.id = cnd.id_loginsenha_fk
+$result_usuarios = "SELECT emp.nome as nome, emp.email as email FROM empresa as emp
+inner join loginsenha as lgn_s on lgn_s.id = emp.id_loginsenha_fk
 where lgn_s.login = '$email' and lgn_s.senha = '$senha'";
 
 
@@ -27,30 +25,25 @@ where lgn_s.login = '$email' and lgn_s.senha = '$senha'";
 $resultado_usuarios = mysqli_query($conn,$result_usuarios);
 
 
-
-
 $row_usuario = mysqli_fetch_assoc($resultado_usuarios);
 
         
         
         if($row_usuario['nome'] != null and $row_usuario['email'] != null){
-	header("Location: cadastrartecnologia.php");
+	header("Location: cadastro_vaga_tecnologia.php");
  
         }
         
 ?>
     
-    
-    
-                
-    <br><br>
-          
+       
+    <br><br>   
   <div class="container">	
   <div class="jumbotron">
   <h1 class="display-5">Insira Suas Informações</h1>
-  <p class="lead">Seus dados não estão seguros, nós vamos repassar para terceiros e fazer sua familia de refém.</p>
+  <p class="lead">Seus dados estão seguros, nós vamos repassar para terceiros.</p>
   <hr class="my-4">
-<form method="POST" action="cadastro_p.php">
+<form method="POST" action="cadastro_vaga_p.php">
 
     
     
@@ -63,7 +56,6 @@ $row_usuario = mysqli_fetch_assoc($resultado_usuarios);
 <input type="text" class="form-control" name="telefone" placeholder="(18) 35059800">
 <label>Email:</label><br> 
 <input type="text" class="form-control" name="email" placeholder="joao@joao.com">
-
 <label>Cidade:</label><br> 
 <input type="text" class="form-control" name="cidade" placeholder="Adamantina"><br><br>
 
